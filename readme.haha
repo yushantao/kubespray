@@ -1,0 +1,35 @@
+搭建步骤：
+
+  step1 初始化网络
+
+           遵循黑石服务器初始化网络流程 每个物理机需要一个独立子网 xxx.xxx.xxx.2/24 关闭分布式子网设置
+
+  step2 初始化服务器
+
+           ansible初始化docker和linux两个role
+
+  step3 初始化网桥
+
+          ansible-playbook -i kubespray/inventory/ops/hosts.ini network.yml
+
+  step4 初始化 kubernetes
+
+     cd kubespray/ 
+
+     ansible-playbook -i inventory/ops/hosts.ini cluster.yml
+
+     扩容集群
+
+     ansible-playbook -i inventory/ops/hosts.ini scale.yml
+
+      重置集群
+
+      ansible-playbook -i inventory/ops/hosts.ini reset.yml
+
+  step5 验证
+
+     登录master服务器，切换root, 执行命令kubectl get nodes -o wide
+
+     网上随便找个nginx的yaml文件 kubectl create -f nginx.yaml
+
+     执行命令验证k8s是否为bridge方式  kubectl get pods -o wide
